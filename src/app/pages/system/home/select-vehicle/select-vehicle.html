@@ -1,0 +1,15 @@
+<div class="card flex justify-center">
+    <p-button (click)="showDialog()" label="Adicionar Veículo" />
+    <p-dialog header="Adicionar Veículo" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+                <!-- Select existing vehicle -->
+                <div class="mb-4">
+                    <label class="font-semibold">Escolha um veículo existente</label>
+                                            <select #sel class="w-full p-2 mt-2" (change)="selectVehicle(sel.value)">
+                                                <option value="">-- selecione --</option>
+                                                <option *ngFor="let v of availableVehicles; let i = index" [value]="i">
+                                                        {{ v.w }} x {{ v.l }} x {{ v.h }} (max {{ v.maxWeight }})
+                                                </option>
+                                            </select>
+                </div>       
+    </p-dialog>
+</div>

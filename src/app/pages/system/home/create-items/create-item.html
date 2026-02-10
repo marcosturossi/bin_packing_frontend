@@ -1,0 +1,44 @@
+<div class="card flex justify-center">
+    <p-button (click)="showDialog()" label="Adicionar Item" />
+    <p-dialog header="Adicionar Item" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+                <span class="p-text-secondary block mb-8">Adicionar novo item</span>
+                <form [formGroup]="form">
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">W</label>
+                        <input pInputText type="number" formControlName="w" class="flex-auto" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">L</label>
+                        <input pInputText type="number" formControlName="l" class="flex-auto" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">H</label>
+                        <input pInputText type="number" formControlName="h" class="flex-auto" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">Quantity</label>
+                        <input pInputText type="number" formControlName="quantity" class="flex-auto" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">Weight</label>
+                        <input pInputText type="number" formControlName="weight" class="flex-auto" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">Stackable</label>
+                        <input type="checkbox" formControlName="stackable" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <label class="font-semibold w-24">Upright Only</label>
+                        <input type="checkbox" formControlName="uprightOnly" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <label class="font-semibold w-24">Max Stack W</label>
+                        <input pInputText type="number" formControlName="itemMaxStackWeight" class="flex-auto" />
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+                        <p-button label="Save" (click)="emitItem()" [disabled]="form.invalid" />
+                    </div>
+                </form>
+    </p-dialog>
+</div>
