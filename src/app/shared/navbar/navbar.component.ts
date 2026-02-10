@@ -1,0 +1,70 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthServiceService } from '../../services/auth-service.service';
+import { SidebarService } from '../layout/sidebar.service';
+import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  standalone: true,
+  imports: [CommonModule, MenubarModule, ButtonModule, MenuModule],
+  styleUrls: ['./navbar.component.scss']
+})
+export class NavbarComponent implements OnInit {
+
+  userName:string|null = ""
+  profileDropDown = false
+  sidebarOpen = false
+  profileItems: any[] = []
+
+  constructor(
+    private router:Router,
+    private authService: AuthServiceService,
+    private sidebarService: SidebarService
+  ){
+
+  }
+  ngOnInit(): void {
+    this.setUserName()
+    this.profileItems = [
+      { label: 'Sair', icon: 'pi pi-sign-out', command: () => this.logout() }
+    ];
+
+    // subscribe to sidebar state
+    this.sidebarService.open$.subscribe(open => this.sidebarOpen = open);
+  }
+  
+  checkSidebarState() {
+    // Check if sidebar is open by looking at body class
+    const observer = new MutationObserver(() => {
+      this.sidebarOpen = document.body.classList.contains('sidebar-open');
+    });
+    
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  setUserName(){
+    this.userName = this.authService.getUsernameFromToken()
+  }
+
+  openProfileDropDown(){
+    this.profileDropDown = !this.profileDropDown
+  }
+
+  toggleSidebar(){
+    // Toggle via SidebarService (shared state)
+    this.sidebarService.toggle();
+  }
+
+  logout(){
+    this.router.navigateByUrl("authentication/logout")
+  }
+
+}

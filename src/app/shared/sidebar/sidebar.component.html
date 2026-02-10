@@ -1,0 +1,8 @@
+<p-drawer [(visible)]="visible" modal="true" position="left" (onHide)="onHide()" class="app-sidebar">
+  <div class="sidebar-header d-flex justify-content-between align-items-center p-3">
+    <span class="sidebar-title">Menu</span>
+    <button pButton icon="pi pi-times" class="p-button-text" (click)="onHide()"></button>
+  </div>
+
+  <p-panelMenu [model]="items" styleClass="mt-3"></p-panelMenu>
+</p-drawer>

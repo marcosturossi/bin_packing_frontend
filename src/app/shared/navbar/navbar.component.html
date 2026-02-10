@@ -1,0 +1,14 @@
+<p-menubar>
+  <ng-template pTemplate="start">
+    <button pButton pRipple icon="pi pi-bars" class="p-button-text me-3" (click)="toggleSidebar()" aria-label="Toggle sidebar"></button>
+    <img class="logo" src="../../../assets/company/carlson_logo.png" alt="Logo Empresa">
+  </ng-template>
+
+  <ng-template pTemplate="end">
+    <p-menu #profileMenu [model]="profileItems" popup="true"></p-menu>
+    <button pButton type="button" class="p-button-text ms-3" (click)="profileMenu.toggle($event)">
+      <i class="pi pi-user me-2"></i>
+      <span class="d-none d-sm-inline">{{userName}}</span>
+    </button>
+  </ng-template>
+</p-menubar>
