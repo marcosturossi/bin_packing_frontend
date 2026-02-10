@@ -6,6 +6,9 @@
 
   <ng-template pTemplate="end">
     <p-menu #profileMenu [model]="profileItems" popup="true"></p-menu>
+    <button pButton type="button" class="p-button-text ms-3" (click)="toggleTheme()" aria-label="Toggle theme">
+      <i class="pi pi-moon me-2"></i>
+    </button>
     <button pButton type="button" class="p-button-text ms-3" (click)="profileMenu.toggle($event)">
       <i class="pi pi-user me-2"></i>
       <span class="d-none d-sm-inline">{{userName}}</span>

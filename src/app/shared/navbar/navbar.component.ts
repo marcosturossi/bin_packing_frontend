@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthServiceService } from '../../services/auth-service.service';
 import { SidebarService } from '../layout/sidebar.service';
+import { ThemeService } from '../theme.service';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
@@ -24,7 +25,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private router:Router,
     private authService: AuthServiceService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private themeService: ThemeService
   ){
 
   }
@@ -65,6 +67,10 @@ export class NavbarComponent implements OnInit {
 
   logout(){
     this.router.navigateByUrl("authentication/logout")
+  }
+
+  toggleTheme(){
+    this.themeService.toggle();
   }
 
 }
