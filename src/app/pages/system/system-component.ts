@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterModule } from "@angular/router";
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+// navbar and sidebar are provided by the app shell; avoid duplication here
 
 @Component({
   selector: 'app-system-component',
   templateUrl: './system-component.html',
   styleUrls: ['./system-component.scss'],
   standalone: true,
-  imports: [NavbarComponent, SidebarComponent, RouterModule]
+  imports: [RouterModule]
 })
 export class SystemComponent {
 

@@ -1,15 +1,18 @@
-<div class="card flex justify-center">
-    <p-button (click)="showDialog()" label="Adicionar Veículo" />
-    <p-dialog header="Adicionar Veículo" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-                <!-- Select existing vehicle -->
-                <div class="mb-4">
-                    <label class="font-semibold">Escolha um veículo existente</label>
-                                            <select #sel class="w-full p-2 mt-2" (change)="selectVehicle(sel.value)">
-                                                <option value="">-- selecione --</option>
-                                                <option *ngFor="let v of availableVehicles; let i = index" [value]="i">
-                                                        {{ v.w }} x {{ v.l }} x {{ v.h }} (max {{ v.maxWeight }})
-                                                </option>
-                                            </select>
-                </div>       
+<div class="card">
+    <p-button icon="pi pi-truck" (click)="showDialog()" label="Selecionar Veículo" />
+
+    <p-dialog header="Selecionar Veículo" [modal]="true" [(visible)]="visible" [style]="{ width: '28rem' }">
+        <div class="dialog-body">
+            <label class="label">Escolha um veículo existente</label>
+            <select #sel class="select" (change)="selectVehicle(sel.value)">
+                <option value="">-- selecione --</option>
+                <option *ngFor="let v of availableVehicles; let i = index" [value]="i">
+                    {{ v.w }} x {{ v.l }} x {{ v.h }} — max {{ v.maxWeight }}kg
+                </option>
+            </select>
+        </div>
+        <div class="dialog-actions">
+            <p-button icon="pi pi-times" label="Fechar" severity="secondary" (click)="visible=false"></p-button>
+        </div>
     </p-dialog>
 </div>

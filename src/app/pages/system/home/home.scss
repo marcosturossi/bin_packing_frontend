@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  padding: 0.5rem 0.25rem;
+  font-family: Inter, Roboto, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial;
+  color: #e6eef8;
+}
+
+/* Make the app container fluid for this page (like bootstrap container-fluid) */
+:host ::ng-deep .container {
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+/* Reduce global content padding so the page is more fluid */
+:host ::ng-deep .app-content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Layout: left controls fixed, right visualizer fills remaining space */
+.home-main {
+  display: grid;
+  /* allow the left column to grow on wide screens but stay compact on small screens */
+  grid-template-columns: minmax(240px, 520px) 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  min-height: calc(100vh - var(--navbar-height, 56px) - 24px);
+  padding-left: 4px;
+  max-width: none; /* full-bleed layout to maximize visualizer area */
+  margin: 0; /* flush to viewport */
+}
+
+/* Fix the left controls width only (first panel) */
+:host ::ng-deep .home-main > .panel:first-child {
+  width: auto !important; /* allow grid minmax to control width */
+  min-width: 240px !important;
+  max-width: 520px !important;
+}
+
+.home-main .results-col { display:block; width:100%; }
+
+/* Expanded state (when toggled) - keep for future use */
+.home-main.expanded { grid-template-columns: 0 1fr; }
+.home-main.expanded .panel { display:none }
+
+/* Fullscreen visualizer overlay (kept for expand feature) */
+.visualizer-overlay {
+  position: fixed;
+  left: 0;
+  top: var(--navbar-height, 56px);
+  right: 0;
+  bottom: 0;
+  background: rgba(6,8,12,0.85);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem 1.25rem;
+}
+.visualizer-overlay .overlay-toolbar { display:flex; justify-content:flex-end }
+.visualizer-overlay .overlay-content { flex: 1 1 auto; display:flex; align-items:stretch; justify-content:center }
+.visualizer-overlay app-cargo-view { flex:1 1 auto; height:100%; width: 100%; max-width: none; margin: 0; }
+
+/* Panel visuals */
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+}
+
+.controls { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap }
+.vehicle-selected { margin-bottom:0.5rem; color:#bfe1ff }
+.items-list { margin-top:0.5rem }
+
+/* Responsive tweaks */
+@media (max-width: 1199px) {
+  .home-main { grid-template-columns: 260px 1fr }
+  :host ::ng-deep .home-main > .panel:first-child { width: 260px !important }
+}
+
+@media (max-width: 880px) {
+  /* stack on small screens */
+  .home-main { grid-template-columns: 1fr; gap: 0.6rem }
+  /* left panel full width (stacked above results) */
+  :host ::ng-deep .home-main > .panel:first-child { width: 100% !important }
+  /* reduce outer paddings a bit more */
+  :host ::ng-deep .container, :host ::ng-deep .app-content { padding-left: 6px !important; padding-right: 6px !important }
+}

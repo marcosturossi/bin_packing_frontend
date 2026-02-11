@@ -1,0 +1,46 @@
+:host { display:block }
+.controls { display:flex; flex-direction:column; gap:0.75rem }
+.controls.compact { padding: 0.5rem 0 }
+.toolbar { display:flex; gap:0.5rem; align-items:center }
+.vehicle-selected { color:#bfe1ff; margin-top:0.25rem }
+.vehicle-selected .v-head { display:flex; gap:0.5rem; align-items:center }
+.muted { color:#9fbfe6; font-size:0.9rem }
+.items-list ul { list-style:none; padding:0; margin:0; max-height:240px; overflow:auto }
+.items-list li { display:flex; justify-content:space-between; padding:0.35rem 0; align-items:center }
+.item-meta { color:var(--muted) }
+.item-actions button { color:#ff6b6b }
+.actions { margin-top:0.5rem }
+
+.quick-add { display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem }
+.section-header { display:flex; flex-direction:column; gap:0.1rem; margin-bottom:0.25rem }
+.section-title { font-size:0.95rem; color:var(--accent) }
+.section-sub { font-size:0.8rem; color:var(--muted) }
+.quick-add .inputs { display:flex; gap:0.6rem; align-items:center; width:100%; flex-wrap:nowrap }
+.quick-add .input-group { display:flex; flex-direction:column; gap:0.2rem; align-items:flex-start; min-width: 64px; flex: 1 1 0 }
+
+/* On small screens allow inputs to wrap into multiple rows */
+@media (max-width: 880px) {
+	.quick-add .inputs { flex-wrap:wrap; }
+}
+.quick-add .field-label { font-size:0.78rem; color:var(--muted); text-align:left }
+.quick-add input { width:100%; box-sizing:border-box; padding:0.45rem; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:transparent; color:inherit; transition:box-shadow 120ms, border-color 120ms }
+.quick-add input:focus { outline:none; border-color:var(--accent,#6ab0ff); box-shadow:0 0 6px rgba(106,176,255,0.16) }
+.quick-add .quick-actions { display:flex }
+
+.row-options { display:flex; gap:0.6rem; align-items:center; flex-wrap:nowrap }
+.row-options .opt { display:flex; gap:0.4rem; align-items:center; color:var(--muted); font-size:0.95rem }
+.row-options .opt input[type="checkbox"] { width:16px; height:16px }
+.row-options .opt.small { display:flex; flex-direction:row; align-items:center; gap:0.4rem }
+.row-options .opt.small input { width:3.2rem }
+
+@media (max-width: 880px) {
+	.row-options { flex-wrap:wrap }
+	.row-options .opt.small { width:100%; gap:0.5rem }
+	.row-options .opt.small input { width:4rem }
+}
+
+.help-btn { margin-left: auto }
+.help-box { margin-top:0.5rem; font-size:0.92rem }
+.help-box ul { margin:0.25rem 0 0 1rem }
+.help-box li { margin-bottom:0.25rem }
+

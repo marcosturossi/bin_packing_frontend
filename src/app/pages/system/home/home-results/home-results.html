@@ -1,0 +1,32 @@
+<div class="results">
+  <div *ngIf="response" class="panel">
+    <app-cargo-view [cargo]="response" [vehicle]="vehicle"></app-cargo-view>
+
+    <div class="items-table">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Pos (X,Y,Z)</th>
+            <th>Size (W×L×H)</th>
+            <th>Qty</th>
+            <th>Weight</th>
+            <th>Stackable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of response.cargoItems; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.id }}</td>
+            <td>{{ it.positionX }} , {{ it.positionY }} , {{ it.positionZ }}</td>
+            <td>{{ it.w }}×{{ it.l }}×{{ it.h }}</td>
+            <td>{{ it.quantity }}</td>
+            <td>{{ it.weight }}</td>
+            <td>{{ it.stackable ? '✓' : '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

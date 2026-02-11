@@ -1,0 +1,85 @@
+<div class="controls compact">
+  <div class="toolbar">
+    <!-- keep dialog available, but show quick-add inline form below -->
+    <app-select-vehicle (outputEvent)="onSelectVehicle($event)"></app-select-vehicle>
+    <button pButton class="p-button-text help-btn" icon="pi pi-info-circle" (click)="toggleHelp()" aria-label="Ajuda campos"></button>
+  </div>
+
+  <form [formGroup]="form" class="quick-add" (ngSubmit)="quickAdd()">
+    <div class="section-header">
+      <strong class="section-title">Adicionar Item Rápido</strong>
+      <small class="section-sub">Preencha as medidas e quantidade (unidades em cm e kg)</small>
+    </div>
+    <div class="inputs">
+      <label class="input-group">
+        <span class="field-label">W</span>
+        <input pInputText type="number" formControlName="w" placeholder="Largura, ex: 30" title="Largura (cm)" aria-label="Largura em centímetros" />
+      </label>
+      <label class="input-group">
+        <span class="field-label">L</span>
+        <input pInputText type="number" formControlName="l" placeholder="Comprimento, ex: 30" title="Comprimento (cm)" aria-label="Comprimento em centímetros" />
+      </label>
+      <label class="input-group">
+        <span class="field-label">H</span>
+        <input pInputText type="number" formControlName="h" placeholder="Altura, ex: 30" title="Altura (cm)" aria-label="Altura em centímetros" />
+      </label>
+      <label class="input-group">
+        <span class="field-label">Qtd</span>
+        <input pInputText type="number" formControlName="quantity" placeholder="Quantidade" title="Quantidade (inteiro)" aria-label="Quantidade" />
+      </label>
+      <label class="input-group">
+        <span class="field-label">Peso</span>
+        <input pInputText type="number" formControlName="weight" placeholder="Kg por unidade" title="Peso por unidade (kg)" aria-label="Peso em kg" />
+      </label>
+      <label class="input-group">
+        <span class="field-label">Max empilh.</span>
+        <input pInputText type="number" formControlName="itemMaxStackWeight" placeholder="kg" title="Peso máximo por pilha (kg)" aria-label="Max empilhamento" />
+      </label>
+    </div>
+    <div class="row-options">
+      <label class="opt">
+        <input type="checkbox" formControlName="stackable" />
+        <span>Empilhável</span>
+      </label>
+      <label class="opt">
+        <input type="checkbox" formControlName="uprightOnly" />
+        <span>Somente vertical</span>
+      </label>
+      
+    </div>
+    <div class="quick-actions">
+      <p-button icon="pi pi-plus" label="Adicionar" (click)="quickAdd()"></p-button>
+    </div>
+  </form>
+  <div *ngIf="showHelp" class="help-box panel">
+    <strong>Ajuda — campos rápidos</strong>
+    <ul>
+      <li><strong>W,L,H</strong>: dimensões do item em centímetros (W=largura, L=comprimento, H=altura).</li>
+      <li><strong>Qtd</strong>: quantidade de unidades deste item.</li>
+      <li><strong>Peso</strong>: peso por unidade em kg.</li>
+      <li><strong>Stackable</strong>: se o item pode ser empilhado.</li>
+      <li><strong>Upright Only</strong>: manter orientação vertical.</li>
+    </ul>
+  </div>
+
+  <div class="vehicle-selected" *ngIf="vehicle">
+    <div class="v-head">
+      <strong>Veículo:</strong>
+      <small class="muted">{{ vehicle.w }}×{{ vehicle.l }}×{{ vehicle.h }} (max {{ vehicle.maxWeight }})</small>
+    </div>
+  </div>
+
+  <div class="items-list" *ngIf="items?.length">
+    <strong>Itens</strong>
+    <ul>
+      <li *ngFor="let it of items; let i = index">
+        <div class="item-meta">{{ it.w }}×{{ it.l }}×{{ it.h }} • {{ it.weight }}kg</div>
+        <div class="item-actions"><button pButton type="button" class="p-button-text" icon="pi pi-trash" (click)="onRemove(i)"></button></div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="actions">
+    <p-button icon="pi pi-upload" (click)="onSend()" label="Enviar" [disabled]="!vehicle || items.length === 0"></p-button>
+  </div>
+</div>

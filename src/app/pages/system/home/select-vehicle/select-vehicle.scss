@@ -1,0 +1,10 @@
+
+:host {
+  display:block;
+}
+
+.dialog-body { display:flex; flex-direction:column; gap:0.5rem }
+.label { color:#bcdff6; font-weight:600 }
+.select { padding:0.6rem; border-radius:6px; background:rgba(0,0,0,0.12); color:#e6eef8; border:1px solid rgba(255,255,255,0.04) }
+.dialog-actions { display:flex; justify-content:flex-end; margin-top:0.75rem }
+

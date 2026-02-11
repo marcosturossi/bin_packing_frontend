@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CreateItem } from "./create-items/create-item";
 import { SelectVehicle } from "./select-vehicle/select-vehicle";
+import { HomeControls } from "./home-controls/home-controls";
+import { HomeResults } from "./home-results/home-results";
 import { Axel, CargoRequest, CargoResponse, Item, Vehicle, BinPackingService } from '../../../generated_services';
 import { BehaviorSubject } from 'rxjs';
 import { CargoView } from './cargo-view/cargo-view';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ButtonModule, CreateItem, SelectVehicle, CargoView],
+  imports: [CommonModule, ButtonModule, CreateItem, SelectVehicle, CargoView, HomeControls, HomeResults],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
 })
@@ -17,6 +19,7 @@ import { CargoView } from './cargo-view/cargo-view';
 export class Home {
   vehicle?: Vehicle
   items: Item[] = []
+  visualizerExpanded = false
   // expose response as an observable to use the async pipe in template
   response$ = new BehaviorSubject<CargoResponse | undefined>(undefined)
 
@@ -54,5 +57,9 @@ export class Home {
         console.error('erro', err);
       }
     });
+  }
+
+  toggleVisualizer(){
+    this.visualizerExpanded = !this.visualizerExpanded
   }
 }

@@ -1,3 +1,8 @@
-<div class="cargo-view" [style.width.px]="containerWidth" [style.height.px]="containerHeight">
-	<div #threeContainer class="three-container" style="width:100%;height:100%"></div>
+<div class="cargo-view cargo-wrapper panel">
+  <div class="overlay-controls">
+    <button class="btn" (click)="resetView()">Reset</button>
+  </div>
+  <div #threeContainer class="three-container" style="width:100%;height:100%"></div>
+  <div class="legend">Legend: boxes = items • grid = floor</div>
 </div>
+

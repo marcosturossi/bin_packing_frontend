@@ -34,6 +34,7 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
   private camera: any = null;
   private controls: any = null;
   private meshes: any[] = [];
+  private resizeObserver: any = null;
   private rafId: any = null;
   private initDone = false;
 
@@ -83,6 +84,17 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     this.renderer.domElement.style.width  = '100%';
     this.renderer.domElement.style.height = '100%';
 
+    // Observe container size and update renderer on resize
+    if ((window as any).ResizeObserver) {
+      this.resizeObserver = new (window as any).ResizeObserver(() => this.onResize());
+      this.resizeObserver.observe(this.containerRef.nativeElement);
+      // initial resize
+      // call onResize to ensure renderer uses the actual container size immediately
+      this.onResize();
+    } else {
+      window.addEventListener('resize', this.onResizeBound);
+    }
+
     // Debug: report DOM and renderer sizes
     try {
       const c = this.containerRef.nativeElement;
@@ -103,6 +115,26 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     this.controls.update();
 
     this.ngZone.runOutsideAngular(() => this.animate());
+  }
+
+  private onResizeBound = () => this.onResize();
+
+  private onResize() {
+    try {
+      const el = this.containerRef.nativeElement;
+      const w = Math.max(10, el.clientWidth || this.containerWidth);
+      const h = Math.max(10, el.clientHeight || this.containerHeight);
+      this.containerWidth = w;
+      this.containerHeight = h;
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      this.renderer.setSize(w, h, false);
+      if (this.camera) {
+        this.camera.aspect = w / h;
+        this.camera.updateProjectionMatrix();
+      }
+    } catch (e) {
+      console.warn('[CargoView:onResize] failed', e);
+    }
   }
 
   // ─── Scene rebuild ──────────────────────────────────────────────────────────
@@ -208,15 +240,8 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
       this.meshes.push(edgeMesh);
     });
 
-    // ── Auto-fit camera to entire scene ──────────────────────────────────────
-    const diag = Math.sqrt(vehW ** 2 + vehL ** 2 + vehH ** 2);
-    const dist = diag * 1.6;
-
-    this.camera.position.set(dist * 0.8, dist * 0.6, dist * 1.0);
-    this.camera.near   = diag * 0.001;
-    this.camera.far    = diag * 50;
-    this.camera.aspect = this.containerWidth / this.containerHeight;
-    this.camera.updateProjectionMatrix();
+    // Auto-fit camera to the built scene
+    this.fitCamera();
 
     // Debug: camera and renderer state after layout
     try {
@@ -226,12 +251,6 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     } catch (e) {
       console.warn('[CargoView] camera debug failed', e);
     }
-
-    // Orbit around the centre of the vehicle volume
-    this.controls.target.set(0, vehH / 2, 0);
-    this.controls.minDistance = diag * 0.1;
-    this.controls.maxDistance = diag * 10;
-    this.controls.update();
   }
 
   // ─── Vehicle box (5 faces, open top) ────────────────────────────────────────
@@ -281,6 +300,11 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     if (this.rafId) cancelAnimationFrame(this.rafId);
+    if (this.resizeObserver) {
+      try { this.resizeObserver.disconnect(); } catch(e){}
+    } else {
+      window.removeEventListener('resize', this.onResizeBound);
+    }
     this.meshes.forEach(obj => {
       obj.geometry?.dispose();
       if (Array.isArray(obj.material)) obj.material.forEach((m: any) => m.dispose());
@@ -288,5 +312,37 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     });
     this.renderer?.dispose();
     this.renderer?.forceContextLoss?.();
+  }
+
+  // Fit camera to the bounding box of the vehicle/items
+  public fitCamera() {
+    if (!this.scene || !this.camera || !this.THREE) return;
+    const THREE = this.THREE;
+
+    const box = new THREE.Box3().setFromObject(this.scene);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+
+    const diag = Math.sqrt(size.x * size.x + size.y * size.y + size.z * size.z) || 1;
+    const dist = diag * 1.6;
+
+    const offset = new THREE.Vector3(dist * 0.8, dist * 0.6, dist * 1.0);
+    this.camera.position.copy(center.clone().add(offset));
+    this.camera.near = Math.max(0.1, diag * 0.001);
+    this.camera.far  = Math.max(1000, diag * 50);
+    if (this.containerWidth && this.containerHeight) {
+      this.camera.aspect = this.containerWidth / this.containerHeight;
+    }
+    this.camera.updateProjectionMatrix();
+
+    this.controls.target.copy(center);
+    this.controls.minDistance = Math.max(0.1, diag * 0.1);
+    this.controls.maxDistance = Math.max(1000, diag * 10);
+    this.controls.update();
+  }
+
+  // Quick reset: refit camera
+  public resetView() {
+    this.fitCamera();
   }
 }

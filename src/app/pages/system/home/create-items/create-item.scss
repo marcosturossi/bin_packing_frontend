@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.card { display:block }
+
+.dialog-header { color: #9fbfe6; margin-bottom: 0.75rem }
+
+.item-form { display:flex; flex-direction:column; gap:0.75rem }
+
+.grid.two-col { display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem }
+.grid.two-col label { font-size:0.85rem; color:#bcdff6 }
+.grid.two-col input { padding:0.45rem; border-radius:6px; border:1px solid rgba(255,255,255,0.04); background:rgba(0,0,0,0.15); color:#e6eef8 }
+
+.row.gap { display:flex; gap:1rem; align-items:center }
+.checkbox { display:flex; gap:0.4rem; align-items:center; color:#bcdff6 }
+
+.actions { display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem }
+
