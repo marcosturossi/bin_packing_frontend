@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CreateItem } from '../create-items/create-item';
 import { SelectVehicle } from '../select-vehicle/select-vehicle';
 import { Item, Vehicle } from '../../../../generated_services';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 
@@ -30,11 +30,11 @@ export class HomeControls {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      w: [30],
-      l: [30],
-      h: [30],
-      quantity: [1],
-      weight: [0],
+      w: [30, [Validators.required, Validators.min(1)]],
+      l: [30, [Validators.required, Validators.min(1)]],
+      h: [30, [Validators.required, Validators.min(1)]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      weight: [1, [Validators.required, Validators.min(0)]],
       stackable: [true],
       uprightOnly: [false],
       itemMaxStackWeight: [null]

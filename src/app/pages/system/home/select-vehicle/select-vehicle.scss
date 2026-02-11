@@ -5,6 +5,44 @@
 
 .dialog-body { display:flex; flex-direction:column; gap:0.5rem }
 .label { color:#bcdff6; font-weight:600 }
-.select { padding:0.6rem; border-radius:6px; background:rgba(0,0,0,0.12); color:#e6eef8; border:1px solid rgba(255,255,255,0.04) }
+.select {
+  width:100%;
+  box-sizing: border-box;
+  padding:0.45rem;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:transparent;
+  color:inherit;
+  transition: box-shadow 120ms, border-color 120ms;
+}
+.select:focus {
+  outline: none;
+  border-color: var(--accent, #6ab0ff);
+  box-shadow: 0 0 6px rgba(106,176,255,0.16);
+}
+.select {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Improve dropdown options contrast and selected state */
+.select option {
+  background: #072033; /* dark blue background for options */
+  color: #e6eef8; /* light text for contrast */
+  padding: 0.35rem 0.5rem;
+}
+.select option:checked,
+.select option:active {
+  background: var(--accent, #6ab0ff);
+  color: #02121a;
+}
+
+/* Fallback for browsers that don't style native options well: add a stronger border */
+.select[aria-expanded="true"] {
+  border-color: var(--accent, #6ab0ff);
+}
 .dialog-actions { display:flex; justify-content:flex-end; margin-top:0.75rem }
 

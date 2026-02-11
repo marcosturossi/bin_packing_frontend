@@ -199,6 +199,10 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     this.meshes.push(grid);
 
     // ── Cargo items ──────────────────────────────────────────────────────────
+    // Group items by a "family" key so identical items get the same color
+    const familyMap = new Map<string, number>();
+    let nextFamilyIndex = 0;
+
     items.forEach((it, idx) => {
       const w = it.w  ?? 1;
       const l = it.l  ?? 1;
@@ -215,7 +219,14 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
 
       console.log(`[CargoView] item[${idx}] w=${w} l=${l} h=${h} → cx=${cx} cy=${cy} cz=${cz}`);
 
-      const hue = (idx * 47) % 360;
+      // Define family key from dimensions and weight so same-family items share color
+      const familyKey = `${w}|${l}|${h}|${Number(it.weight ?? 0)}`;
+      let familyIndex = familyMap.get(familyKey);
+      if (familyIndex === undefined) {
+        familyIndex = nextFamilyIndex++;
+        familyMap.set(familyKey, familyIndex);
+      }
+      const hue = (familyIndex * 47) % 360;
 
       // Solid box
       const geom = new THREE.BoxGeometry(w, h, l);

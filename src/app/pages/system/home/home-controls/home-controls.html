@@ -12,15 +12,15 @@
     </div>
     <div class="inputs">
       <label class="input-group">
-        <span class="field-label">W</span>
+        <span class="field-label">Largura</span>
         <input pInputText type="number" formControlName="w" placeholder="Largura, ex: 30" title="Largura (cm)" aria-label="Largura em centímetros" />
       </label>
       <label class="input-group">
-        <span class="field-label">L</span>
+        <span class="field-label">Comprimento</span>
         <input pInputText type="number" formControlName="l" placeholder="Comprimento, ex: 30" title="Comprimento (cm)" aria-label="Comprimento em centímetros" />
       </label>
       <label class="input-group">
-        <span class="field-label">H</span>
+        <span class="field-label">Altura</span>
         <input pInputText type="number" formControlName="h" placeholder="Altura, ex: 30" title="Altura (cm)" aria-label="Altura em centímetros" />
       </label>
       <label class="input-group">
@@ -48,13 +48,13 @@
       
     </div>
     <div class="quick-actions">
-      <p-button icon="pi pi-plus" label="Adicionar" (click)="quickAdd()"></p-button>
+      <p-button icon="pi pi-plus" [disabled]="form.invalid" label="Adicionar" (click)="quickAdd()"></p-button>
     </div>
   </form>
   <div *ngIf="showHelp" class="help-box panel">
     <strong>Ajuda — campos rápidos</strong>
     <ul>
-      <li><strong>W,L,H</strong>: dimensões do item em centímetros (W=largura, L=comprimento, H=altura).</li>
+      <li><strong>Largura, Comprimento, Altura</strong>: dimensões do item em centímetros.</li>
       <li><strong>Qtd</strong>: quantidade de unidades deste item.</li>
       <li><strong>Peso</strong>: peso por unidade em kg.</li>
       <li><strong>Stackable</strong>: se o item pode ser empilhado.</li>
@@ -73,7 +73,7 @@
     <strong>Itens</strong>
     <ul>
       <li *ngFor="let it of items; let i = index">
-        <div class="item-meta">{{ it.w }}×{{ it.l }}×{{ it.h }} • {{ it.weight }}kg</div>
+        <div class="item-meta">{{ it.w }}×{{ it.l }}×{{ it.h }} • {{ it.weight }}kg • {{ it.quantity }} unidades</div>
         <div class="item-actions"><button pButton type="button" class="p-button-text" icon="pi pi-trash" (click)="onRemove(i)"></button></div>
       </li>
     </ul>
