@@ -4,18 +4,21 @@ import { ButtonModule } from 'primeng/button';
 import { CreateItem } from "./create-items/create-item";
 import { SelectVehicle } from "./select-vehicle/select-vehicle";
 import { Axel, CargoRequest, CargoResponse, Item, Vehicle, BinPackingService } from '../../../generated_services';
+import { BehaviorSubject } from 'rxjs';
+import { CargoView } from './cargo-view/cargo-view';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ButtonModule, CreateItem, SelectVehicle],
+  imports: [CommonModule, ButtonModule, CreateItem, SelectVehicle, CargoView],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrls: ['./home.scss'],
 })
 
 export class Home {
   vehicle?: Vehicle
   items: Item[] = []
-  response?: CargoResponse
+  // expose response as an observable to use the async pipe in template
+  response$ = new BehaviorSubject<CargoResponse | undefined>(undefined)
 
   constructor(private binPacking: BinPackingService) {}
 
@@ -43,11 +46,9 @@ export class Home {
     const cargoRequest = this.createCargoRequest()
     this.binPacking.calculateCargo(cargoRequest).subscribe({
       next: (res: CargoResponse) => {
-        // assign on next microtask to avoid ExpressionChangedAfterItHasBeenCheckedError
-        Promise.resolve().then(() => {
-          this.response = res;
-          console.log('resposta', res);
-        });
+        // push into observable subject; template uses async pipe
+        this.response$.next(res);
+        console.log('resposta', res);
       },
       error: (err) => {
         console.error('erro', err);

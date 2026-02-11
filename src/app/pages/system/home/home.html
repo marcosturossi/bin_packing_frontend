@@ -20,7 +20,8 @@
 	<p-button (click)="sendCargo()" label="Enviar" [disabled]="!vehicle || items.length === 0"></p-button>
 </div>
 
-<div *ngIf="response" class="mt-4">
+<div *ngIf="response$ | async as response" class="mt-4">
 	<strong>Resposta do backend:</strong>
-	<pre>{{ response | json }}</pre>
+	<app-cargo-view [cargo]="response" [vehicle]="vehicle"></app-cargo-view>
+	<pre class="mt-3">{{ response | json }}</pre>
 </div>

@@ -1,0 +1,12 @@
+.cargo-view {
+	position: relative;
+	border: 1px solid #ccc;
+	background: #fafafa;
+	overflow: hidden;
+}
+
+.three-container canvas {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
