@@ -32,6 +32,27 @@
   margin: 0; /* flush to viewport */
 }
 
+/* Ensure both the left controls panel and the results panel align at the top
+   so the 3D view lines up horizontally with the controls */
+.home-main > .panel,
+.home-main .results-col > .panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Ensure both left and right panels have the exact same padding/top offset so their
+   content tops line up precisely. This overrides global .panel variations. */
+.home-main > .panel,
+.home-main .results-col > .panel {
+  /* reduce only top padding so content tops line up while keeping
+     standard horizontal and bottom padding for visual balance */
+  padding: 0.5rem 0.75rem 0.75rem 0.75rem !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
 /* Fix the left controls width only (first panel) */
 :host ::ng-deep .home-main > .panel:first-child {
   width: auto !important; /* allow grid minmax to control width */
@@ -40,6 +61,8 @@
 }
 
 .home-main .results-col { display:block; width:100%; }
+
+.home-main .results-col app-cargo-view { margin-top: 0; align-self: stretch }
 
 /* Expanded state (when toggled) - keep for future use */
 .home-main.expanded { grid-template-columns: 0 1fr; }

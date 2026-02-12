@@ -6,7 +6,10 @@
 
 export const environment = {
   production: false,
-  server: 'http://localhost:8080',
+  server: 'http://localhost:5000',
   face_api: 'http://localhost:8003/api/v1',
+  keycloakUrl: 'http://localhost:8080/',
+  keycloakRealm: 'bin-packing',
+  keycloakClientId: 'bin-packing-client'
 }
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import Keycloak from 'keycloak-js';
 import { CommonModule } from '@angular/common';
-import { AuthServiceService } from '../../services/auth-service.service';
 import { SidebarService } from '../layout/sidebar.service';
 import { ThemeService } from '../theme.service';
 import { MenubarModule } from 'primeng/menubar';
@@ -24,12 +24,11 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router:Router,
-    private authService: AuthServiceService,
     private sidebarService: SidebarService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ){
-
   }
+  private readonly keycloak = inject(Keycloak as unknown as any) as any;
   ngOnInit(): void {
     this.setUserName()
     this.profileItems = [
@@ -53,7 +52,12 @@ export class NavbarComponent implements OnInit {
   }
 
   setUserName(){
-    this.userName = this.authService.getUsernameFromToken()
+    try {
+      // Try to read username from the Keycloak token if available
+      this.userName = (this.keycloak?.tokenParsed?.preferred_username as string) ?? null;
+    } catch {
+      this.userName = null;
+    }
   }
 
   openProfileDropDown(){

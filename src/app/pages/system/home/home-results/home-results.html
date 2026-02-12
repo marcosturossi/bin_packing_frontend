@@ -1,7 +1,7 @@
 <div class="results">
-  <div *ngIf="response" class="panel">
-    <app-cargo-view [cargo]="response" [vehicle]="vehicle"></app-cargo-view>
+  <app-cargo-view *ngIf="response" [cargo]="response" [vehicle]="vehicle"></app-cargo-view>
 
+  <div *ngIf="response" class="panel">
     <div class="items-table">
       <table>
         <thead>
