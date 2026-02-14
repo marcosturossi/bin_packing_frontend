@@ -11,7 +11,7 @@ export const routes: Routes = [
         canActivate: [canActivateAuthRole]
     },
     {path: 'authentication/logout', component: Logout},
-    {path: '', component: App, pathMatch: 'full'},
+    {path: '', redirectTo: 'system/home', pathMatch: 'full'},
     {path: '404', component: PageNotFoundComponent},
     {path: '**', redirectTo:'/404'},
 ];

@@ -54,9 +54,9 @@ export class HomeControls {
     v.l = Number(v.l);
     v.h = Number(v.h);
     v.quantity = Number(v.quantity) || 1;
-    v.weight = Number(v.weight) || 0;
+    v.weight = Number(v.weight) || 1;
     this.addItem.emit(v);
-    this.form.patchValue({ w:30, l:30, h:30, quantity:1, weight:0, stackable:true, uprightOnly:false, itemMaxStackWeight:null });
+    this.form.patchValue({ w:30, l:30, h:30, quantity:1, weight:1, stackable:true, uprightOnly:false, itemMaxStackWeight:null });
   }
 
   toggleHelp() { this.showHelp = !this.showHelp; }
