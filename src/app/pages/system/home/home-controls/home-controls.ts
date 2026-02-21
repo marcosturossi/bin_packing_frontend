@@ -3,15 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SelectVehicle } from '../select-vehicle/select-vehicle';
 import { Item, Vehicle, CargoResponse } from '../../../../generated_services';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { HomeVehicleInfo } from '../home-vehicle-info/home-vehicle-info';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home-controls',
   standalone: true,
-  imports: [CommonModule, ButtonModule, SelectVehicle, ReactiveFormsModule, InputTextModule, CheckboxModule, HomeVehicleInfo],
+  imports: [CommonModule, ButtonModule, SelectVehicle, ReactiveFormsModule, FormsModule, InputTextModule, CheckboxModule, HomeVehicleInfo],
   templateUrl: './home-controls.html',
   styleUrls: ['./home-controls.scss']
 })
@@ -26,8 +27,12 @@ export class HomeControls {
   @Output() send = new EventEmitter<void>();
   form!: FormGroup;
   showHelp = false;
+  fileToUpload: File | null = null;
+  delimiter: string = ',';
+  // backend base, match generated service default
+  private backendBase = 'http://localhost:5000';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -61,4 +66,32 @@ export class HomeControls {
   }
 
   toggleHelp() { this.showHelp = !this.showHelp; }
+
+  onFileSelected(ev: any) {
+    // support both native <input type=file> change event and PrimeNG FileUpload onSelect
+    const pguFiles: File[] | undefined = ev?.files ?? ev?.originalEvent?.dataTransfer?.files;
+    if (pguFiles && pguFiles.length) {
+      this.fileToUpload = pguFiles[0];
+      return;
+    }
+    const nativeFile: File | null = ev?.target?.files?.[0] ?? null;
+    this.fileToUpload = nativeFile;
+  }
+
+  uploadCsv() {
+    if (!this.fileToUpload) return;
+    const fd = new FormData();
+    fd.append('file', this.fileToUpload as Blob, this.fileToUpload!.name);
+    const url = `${this.backendBase}/cargo/file/${encodeURIComponent(this.delimiter || ',')}`;
+    this.http.post<Item[]>(url, fd).subscribe(
+      (items) => {
+        if (Array.isArray(items)) {
+          items.forEach(it => this.addItem.emit(it));
+        }
+      },
+      (err) => {
+        console.error('CSV upload failed', err);
+      }
+    );
+  }
 }

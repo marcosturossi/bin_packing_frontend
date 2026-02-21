@@ -14,6 +14,8 @@ import { Observable }                                        from 'rxjs';
 
 import { CargoRequest } from '../model/models';
 import { CargoResponse } from '../model/models';
+import { Item } from '../model/models';
+import { ProblemDetails } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -34,7 +36,8 @@ export interface BinPackingServiceInterface {
     /**
      * 
      * 
+     * @param delimiter 
      */
-    natsHello(extraHttpRequestParams?: any): Observable<{}>;
+    uploadCargoFile(delimiter: string, extraHttpRequestParams?: any): Observable<Array<Item>>;
 
 }

@@ -2,6 +2,48 @@
 .controls { display:flex; flex-direction:column; gap:0.75rem }
 .controls.compact { padding: 0.5rem 0 }
 .toolbar { display:flex; gap:0.5rem; align-items:center }
+.upload-group { display:flex; align-items:center; gap:0.6rem; margin-left:0; flex: 0 1 auto }
+.upload-group .upload-controls { display:flex; gap:0.4rem; align-items:center; flex: 0 1 auto }
+.upload-group .delimiter { width:3rem; padding:0.3rem; border-radius:6px; flex: 0 0 auto }
+/* ensure upload-group stays compact and doesn't push other toolbar elements */
+.upload-group button[pButton] { white-space:nowrap; padding:0.45rem 0.8rem }
+
+/* compact icon-only CSV select button */
+.csv-choose-btn { display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.65rem; white-space:nowrap }
+.csv-choose-btn .pi { font-size:1.05rem; margin-right:0.45rem }
+
+.toolbar { display:flex; gap:0.5rem; align-items:center }
+.toolbar .help-btn { margin-left: 0 }
+
+.upload-row { display:flex; align-items:center; margin-top:0.45rem; flex-wrap:wrap; gap:0.5rem }
+.upload-row .upload-group { margin-left:0.25rem; }
+
+/* ensure upload controls don't overlap the import button; keep spacing compact */
+.upload-group { gap:0.5rem }
+.upload-controls { margin-left:0.4rem }
+
+/* Hide any file-list / filename elements produced by PrimeNG so they don't break layout */
+.upload-group .p-fileupload-files,
+.upload-group .p-fileupload-content,
+.upload-group .p-fileupload-list,
+.upload-group .p-fileupload-filename,
+.upload-group .p-fileupload-files li,
+.upload-group .p-fileupload-message {
+	display: none !important;
+}
+
+/* allow controls to wrap on small widths instead of overflowing */
+/* remove hard max-width so buttons size naturally with their labels */
+
+@media (max-width: 880px) {
+	.toolbar { flex-wrap:wrap }
+	.upload-group { margin-left:0; margin-top:0.4rem }
+	.upload-row { gap:0.4rem }
+	.upload-controls { width:100%; display:flex; gap:0.5rem }
+	.upload-controls input.delimiter { flex:0 0 48px }
+	.upload-controls button[pButton] { flex:0 0 auto }
+	.csv-choose-btn { padding:0.25rem 0.45rem }
+}
 .vehicle-selected { color:#bfe1ff; margin-top:0.25rem }
 .vehicle-selected .v-head { display:flex; gap:0.5rem; align-items:center }
 .muted { color:#9fbfe6; font-size:0.9rem }

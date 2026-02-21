@@ -5,6 +5,19 @@
     <button pButton class="p-button-text help-btn" icon="pi pi-info-circle" (click)="toggleHelp()" aria-label="Ajuda campos"></button>
   </div>
 
+
+  <div class="upload-row">
+    <div class="upload-group" title="Importar itens a partir de CSV">
+      <input #fileInput type="file" accept=".csv" (change)="onFileSelected($event)" style="display:none" />
+      <button pButton type="button" icon="pi pi-plus" label="Selecionar CSV" class="csv-choose-btn" (click)="fileInput.click()" aria-label="Selecionar CSV" title="Selecionar CSV"></button>
+
+      <div class="upload-controls">
+        <input pInputText type="text" [(ngModel)]="delimiter" class="delimiter" placeholder="," title="Delimitador CSV" />
+        <button pButton label="Importar CSV" icon="pi pi-upload" (click)="uploadCsv()" [disabled]="!fileToUpload"></button>
+      </div>
+    </div>
+  </div>
+
   <form [formGroup]="form" class="quick-add" (ngSubmit)="quickAdd()">
     <div class="section-header">
       <strong class="section-title">Adicionar Item Rápido</strong>
