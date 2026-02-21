@@ -13,15 +13,15 @@
     <div class="inputs">
       <label class="input-group">
         <span class="field-label">Largura</span>
-        <input pInputText type="number" formControlName="w" placeholder="Largura, ex: 30" title="Largura (cm)" aria-label="Largura em centímetros" />
+        <input pInputText type="number" formControlName="width" placeholder="Largura, ex: 30" title="Largura (cm)" aria-label="Largura em centímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Comprimento</span>
-        <input pInputText type="number" formControlName="l" placeholder="Comprimento, ex: 30" title="Comprimento (cm)" aria-label="Comprimento em centímetros" />
+        <input pInputText type="number" formControlName="length" placeholder="Comprimento, ex: 30" title="Comprimento (cm)" aria-label="Comprimento em centímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Altura</span>
-        <input pInputText type="number" formControlName="h" placeholder="Altura, ex: 30" title="Altura (cm)" aria-label="Altura em centímetros" />
+        <input pInputText type="number" formControlName="height" placeholder="Altura, ex: 30" title="Altura (cm)" aria-label="Altura em centímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Qtd</span>
@@ -65,15 +65,17 @@
   <div class="vehicle-selected" *ngIf="vehicle">
     <div class="v-head">
       <strong>Veículo:</strong>
-      <small class="muted">{{ vehicle.w }}×{{ vehicle.l }}×{{ vehicle.h }} (max {{ vehicle.maxWeight }})</small>
+      <small class="muted">{{ vehicle.width }}×{{ vehicle.length }}×{{ vehicle.height }} (max {{ vehicle.maxWeight }})</small>
     </div>
   </div>
 
-  <div class="items-list" *ngIf="items?.length">
+  
+
+  <div class="items-list" *ngIf="items.length">
     <strong>Itens</strong>
     <ul>
       <li *ngFor="let it of items; let i = index">
-        <div class="item-meta">{{ it.w }}×{{ it.l }}×{{ it.h }} • {{ it.weight }}kg • {{ it.quantity }} unidades</div>
+        <div class="item-meta">{{ it.width }}×{{ it.length }}×{{ it.height }} • {{ it.weight }}kg • {{ it.quantity }} unidades</div>
         <div class="item-actions"><button pButton type="button" class="p-button-text" icon="pi pi-trash" (click)="onRemove(i)"></button></div>
       </li>
     </ul>
@@ -82,4 +84,6 @@
   <div class="actions">
     <p-button icon="pi pi-upload" (click)="onSend()" label="Enviar" [disabled]="!vehicle || items.length === 0"></p-button>
   </div>
+
+  <app-home-vehicle-info [response]="response" [vehicle]="vehicle"></app-home-vehicle-info>
 </div>

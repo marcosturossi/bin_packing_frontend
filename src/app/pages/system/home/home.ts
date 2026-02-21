@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { CreateItem } from "./create-items/create-item";
-import { SelectVehicle } from "./select-vehicle/select-vehicle";
 import { HomeControls } from "./home-controls/home-controls";
 import { HomeResults } from "./home-results/home-results";
 import { Axel, CargoRequest, CargoResponse, Item, Vehicle, BinPackingService } from '../../../generated_services';
@@ -10,8 +8,9 @@ import { BehaviorSubject } from 'rxjs';
 import { CargoView } from './cargo-view/cargo-view';
 
 @Component({
+  standalone: true,
   selector: 'app-home',
-  imports: [CommonModule, ButtonModule, CreateItem, SelectVehicle, CargoView, HomeControls, HomeResults],
+  imports: [CommonModule, ButtonModule, CargoView, HomeControls, HomeResults],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
 })

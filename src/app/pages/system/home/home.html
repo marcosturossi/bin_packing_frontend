@@ -3,12 +3,14 @@
 		<app-home-controls
 			[items]="items"
 			[vehicle]="vehicle"
+			[response]="(response$ | async)"
 			(addItem)="addItem($event)"
 			(selectVehicle)="selectVehicle($event)"
 			(removeItem)="removeItem($event)"
 			(send)="sendCargo()"
 		></app-home-controls>
 	</div>
+
 
 	<div class="results-col">
 		<app-home-results (toggleExpand)="toggleVisualizer()" [response]="(response$ | async)" [vehicle]="vehicle"></app-home-results>

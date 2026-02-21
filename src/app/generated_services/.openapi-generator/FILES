@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -12,6 +11,7 @@ index.ts
 model/axel.ts
 model/cargoRequest.ts
 model/cargoResponse.ts
+model/centerOfMass.ts
 model/item.ts
 model/itemWithPositions.ts
 model/models.ts

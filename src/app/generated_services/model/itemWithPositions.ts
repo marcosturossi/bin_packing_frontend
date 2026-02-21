@@ -12,9 +12,9 @@
 
 export interface ItemWithPositions { 
     id?: number;
-    w: number;
-    l: number;
-    h: number;
+    width: number;
+    length: number;
+    height: number;
     quantity?: number;
     weight?: number;
     stackable?: boolean;

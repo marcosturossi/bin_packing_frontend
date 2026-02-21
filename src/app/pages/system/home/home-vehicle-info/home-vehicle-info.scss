@@ -1,0 +1,13 @@
+.vehicle-info{ margin-top:6px; padding:0.6rem }
+.vehicle-info .header-row{ display:flex; flex-direction:column; gap:4px; margin-bottom:6px }
+.vehicle-info .header-row strong{ font-size:0.98rem }
+.vehicle-info .header-row .muted{ font-size:0.82rem; color:var(--muted) }
+.vehicle-info .stats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px }
+.vehicle-info .col{ display:flex; flex-direction:column; gap:6px }
+.vehicle-info .stat{ display:flex; flex-direction:column }
+.vehicle-info .label{ color:var(--muted); font-size:0.82rem }
+.vehicle-info .val{ font-weight:600; font-size:0.95rem; color:var(--text) }
+
+@media (max-width: 720px){
+	.vehicle-info .stats-grid{ grid-template-columns: 1fr }
+}

@@ -1,0 +1,46 @@
+<div class="vehicle-info panel" *ngIf="effectiveVehicle || response">
+  <div class="header-row">
+    <strong>Dados do Veículo</strong>
+    <small class="muted">Resumo da configuração atual e atributos da carga</small>
+  </div>
+
+  <div class="stats-grid">
+    <div class="col">
+      <div class="stat">
+        <div class="label">Dimensões (W×L×H)</div>
+        <div class="val">{{ effectiveVehicle?.width || '—' }} × {{ effectiveVehicle?.length || '—' }} × {{ effectiveVehicle?.height || '—' }} cm</div>
+      </div>
+      <div class="stat">
+        <div class="label">Peso Máx.</div>
+        <div class="val">{{ effectiveVehicle?.maxWeight || '—' }} kg</div>
+      </div>
+      <div class="stat">
+        <div class="label">Peso Atual (veículo)</div>
+        <div class="val">{{ effectiveVehicle?.currentWeight || 0 | number:'1.0-2' }} kg</div>
+      </div>
+      <div class="stat" *ngIf="effectiveVehicle?.centerOfMass">
+        <div class="label">Centro de Massa (veículo)</div>
+        <div class="val">({{ effectiveVehicle?.centerOfMass?.x || 0 | number:'1.0-2' }}, {{ effectiveVehicle?.centerOfMass?.y || 0 | number:'1.0-2' }}, {{ effectiveVehicle?.centerOfMass?.z || 0 | number:'1.0-2' }})</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="stat">
+        <div class="label">Itens colocados</div>
+        <div class="val">{{ response?.cargoItems?.length || 0 }}</div>
+      </div>
+      <div class="stat">
+        <div class="label">Peso total colocado</div>
+        <div class="val">{{ totalPlacedWeight | number:'1.0-2' }} kg</div>
+      </div>
+      <div class="stat">
+        <div class="label">Volume total colocado</div>
+        <div class="val">{{ totalPlacedVolume | number:'1.0-0' }} cm³</div>
+      </div>
+      <div class="stat" *ngIf="response?.vehicle?.centerOfMass">
+        <div class="label">Centro de Massa (carga)</div>
+        <div class="val">({{ response?.vehicle?.centerOfMass?.x || 0 | number:'1.0-2' }}, {{ response?.vehicle?.centerOfMass?.y || 0 | number:'1.0-2' }}, {{ response?.vehicle?.centerOfMass?.z || 0 | number:'1.0-2' }})</div>
+      </div>
+    </div>
+  </div>
+</div>

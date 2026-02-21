@@ -161,17 +161,17 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     //   2. Fall back to bounding box of all items
     //   3. Last resort: tiny default so at least something renders
     //
-    let vehW = (this.vehicle?.w && this.vehicle.w > 0) ? this.vehicle.w : 0;
-    let vehL = (this.vehicle?.l && this.vehicle.l > 0) ? this.vehicle.l : 0;
-    let vehH = (this.vehicle?.h && this.vehicle.h > 0) ? this.vehicle.h : 0;
+    let vehW = (this.vehicle?.width && this.vehicle.width > 0) ? this.vehicle.width : 0;
+    let vehL = (this.vehicle?.length && this.vehicle.length > 0) ? this.vehicle.length : 0;
+    let vehH = (this.vehicle?.height && this.vehicle.height > 0) ? this.vehicle.height : 0;
 
     if (items.length > 0) {
       // Compute bounding box of all placed items
       let maxX = 0, maxY = 0, maxZ = 0;
       items.forEach(it => {
-        maxX = Math.max(maxX, (it.positionX ?? 0) + (it.w ?? 0));
-        maxY = Math.max(maxY, (it.positionY ?? 0) + (it.l ?? 0));
-        maxZ = Math.max(maxZ, (it.positionZ ?? 0) + (it.h ?? 0));
+        maxX = Math.max(maxX, (it.positionX ?? 0) + (it.width ?? 0));
+        maxY = Math.max(maxY, (it.positionY ?? 0) + (it.length ?? 0));
+        maxZ = Math.max(maxZ, (it.positionZ ?? 0) + (it.height ?? 0));
       });
 
       // If vehicle dims not provided, use item bounding box
@@ -204,9 +204,9 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     let nextFamilyIndex = 0;
 
     items.forEach((it, idx) => {
-      const w = it.w  ?? 1;
-      const l = it.l  ?? 1;
-      const h = it.h  ?? 1;
+      const w = it.width  ?? 1;
+      const l = it.length  ?? 1;
+      const h = it.height  ?? 1;
       const px = it.positionX ?? 0;
       const py = it.positionY ?? 0;
       const pz = it.positionZ ?? 0;   // vertical / height axis

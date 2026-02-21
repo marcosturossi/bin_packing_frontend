@@ -8,11 +8,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Vehicle } from './vehicle';
 import { ItemWithPositions } from './itemWithPositions';
 
 
 export interface CargoResponse { 
     id?: string | null;
     cargoItems?: Array<ItemWithPositions> | null;
+    vehicle?: Vehicle;
 }
 

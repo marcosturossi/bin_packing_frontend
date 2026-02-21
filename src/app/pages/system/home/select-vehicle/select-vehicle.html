@@ -7,7 +7,7 @@
             <select #sel class="select" (change)="selectVehicle(sel.value)">
                 <option value="">-- selecione --</option>
                 <option *ngFor="let v of availableVehicles; let i = index" [value]="i">
-                    {{ v.w }} x {{ v.l }} x {{ v.h }} — max {{ v.maxWeight }}kg
+                    {{ v.width }} x {{ v.length }} x {{ v.height }} — max {{ v.maxWeight }}kg
                 </option>
             </select>
         </div>

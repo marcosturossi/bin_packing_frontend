@@ -20,9 +20,9 @@ export class CreateItem {
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      w: [0],
-      l: [0],
-      h: [0],
+      width: [0],
+      length: [0],
+      height: [0],
       quantity: [1],
       weight: [0],
       stackable: [true],
@@ -40,7 +40,7 @@ export class CreateItem {
       const value = this.form.value as Item;
       this.outputEvent.emit(value);
       this.visible = false;
-      this.form.reset({ w:0,l:0,h:0,quantity:1,weight:0,stackable:true,uprightOnly:false,itemMaxStackWeight:null });
+      this.form.reset({ width:0,length:0,height:0,quantity:1,weight:0,stackable:true,uprightOnly:false,itemMaxStackWeight:null });
     }
   }
 }

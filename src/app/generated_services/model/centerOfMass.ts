@@ -10,15 +10,9 @@
  */
 
 
-export interface Item { 
-    id?: number;
-    width: number;
-    length: number;
-    height: number;
-    quantity?: number;
-    weight?: number;
-    stackable?: boolean;
-    uprightOnly?: boolean;
-    itemMaxStackWeight?: number | null;
+export interface CenterOfMass { 
+    x?: number;
+    y?: number;
+    z?: number;
 }
 

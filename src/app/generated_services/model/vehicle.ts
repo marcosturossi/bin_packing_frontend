@@ -9,13 +9,17 @@
  * Do not edit the class manually.
  */
 import { Axel } from './axel';
+import { CenterOfMass } from './centerOfMass';
 
 
 export interface Vehicle { 
-    w?: number;
-    l?: number;
-    h?: number;
+    width?: number;
+    length?: number;
+    height?: number;
     maxWeight?: number;
     axles?: Array<Axel> | null;
+    centerOfMass?: CenterOfMass;
+    currentWeight?: number;
+    currentVolume?: number;
 }
 
