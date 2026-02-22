@@ -16,6 +16,8 @@ export class NotificationService {
     const current = this.notifications$.value.slice();
     current.push(item);
     this.notifications$.next(current);
+    // debug logging to help trace toast flow
+    try { console.debug('[NotificationService] addNotification', item); } catch(e) {}
     return id;
   }
 

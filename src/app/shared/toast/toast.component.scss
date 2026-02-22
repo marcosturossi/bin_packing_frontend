@@ -1,0 +1,55 @@
+/* Toast base styles */
+.toast {
+	background: #ffffff;
+	color: #000000;
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.toast .toast-header {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	padding: .5rem .75rem;
+}
+
+.toast .toast-body {
+	padding: .5rem .75rem;
+	background: #ffffff;
+	color: inherit;
+}
+
+/* Type specific header backgrounds and text colors */
+.toast.border-success .toast-header {
+	background-color: #d1e7dd; /* success subtle */
+	color: #0f5132;
+}
+.toast.border-success .toast-body { background-color: #f8fdf8; }
+
+.toast.border-danger,
+.toast.border-danger .toast-header {
+	/* for older code using border-danger */
+}
+.toast.border-danger .toast-header {
+	background-color: #f8d7da; /* error subtle */
+	color: #842029;
+}
+.toast.border-danger .toast-body { background-color: #fff5f6; }
+
+.toast.border-warning .toast-header {
+	background-color: #fff3cd; /* warning subtle */
+	color: #664d03;
+}
+.toast.border-warning .toast-body { background-color: #fffdf6; }
+
+.toast.border-info .toast-header {
+	background-color: #cff4fc; /* info subtle */
+	color: #055160;
+}
+.toast.border-info .toast-body { background-color: #f6feff; }
+
+/* Ensure close button contrasts */
+.toast .btn-close {
+	opacity: 0.8;
+}

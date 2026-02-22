@@ -13,7 +13,8 @@
 
       <div class="upload-controls">
         <input pInputText type="text" [(ngModel)]="delimiter" class="delimiter" placeholder="," title="Delimitador CSV" />
-        <button pButton label="Importar CSV" icon="pi pi-upload" (click)="uploadCsv()" [disabled]="!fileToUpload"></button>
+        <button pButton label="Importar CSV" [icon]="uploading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'" (click)="uploadCsv()" [disabled]="!fileToUpload || uploading"></button>
+        <button *ngIf="fileToUpload" pButton type="button" class="p-button-text" icon="pi pi-times" (click)="clearSelection(fileInput)" [disabled]="uploading" aria-label="Limpar seleção" title="Limpar seleção"></button>
       </div>
     </div>
   </div>
