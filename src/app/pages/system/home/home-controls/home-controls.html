@@ -22,20 +22,20 @@
   <form [formGroup]="form" class="quick-add" (ngSubmit)="quickAdd()">
     <div class="section-header">
       <strong class="section-title">Adicionar Item Rápido</strong>
-      <small class="section-sub">Preencha as medidas e quantidade (unidades em cm e kg)</small>
+      <small class="section-sub">Preencha as medidas e quantidade (unidades em mm e kg)</small>
     </div>
     <div class="inputs">
       <label class="input-group">
         <span class="field-label">Largura</span>
-        <input pInputText type="number" formControlName="width" placeholder="Largura, ex: 30" title="Largura (cm)" aria-label="Largura em centímetros" />
+        <input pInputText type="number" formControlName="width" placeholder="Largura, ex: 30" title="Largura (mm)" aria-label="Largura em milímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Comprimento</span>
-        <input pInputText type="number" formControlName="length" placeholder="Comprimento, ex: 30" title="Comprimento (cm)" aria-label="Comprimento em centímetros" />
+        <input pInputText type="number" formControlName="length" placeholder="Comprimento, ex: 30" title="Comprimento (mm)" aria-label="Comprimento em milímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Altura</span>
-        <input pInputText type="number" formControlName="height" placeholder="Altura, ex: 30" title="Altura (cm)" aria-label="Altura em centímetros" />
+        <input pInputText type="number" formControlName="height" placeholder="Altura, ex: 30" title="Altura (mm)" aria-label="Altura em milímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Qtd</span>

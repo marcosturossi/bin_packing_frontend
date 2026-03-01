@@ -9,6 +9,20 @@
 			(removeItem)="removeItem($event)"
 			(send)="sendCargo()"
 		></app-home-controls>
+
+		<!-- SSE progress indicator while optimisation is running -->
+		<div class="progress-section" *ngIf="loading || statusMessage">
+			<div class="progress-header">
+				<span class="progress-label">{{ statusMessage || 'Aguardando…' }}</span>
+				<span class="progress-iter" *ngIf="iteration">Iteração {{ iteration }}</span>
+			</div>
+			<p-progressBar
+				[mode]="loading ? 'indeterminate' : 'determinate'"
+				[value]="loading ? 0 : 100"
+				[showValue]="false"
+				[style]="{ height: '6px' }"
+			></p-progressBar>
+		</div>
 	</div>
 
 

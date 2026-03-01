@@ -1,45 +1,65 @@
 <div class="vehicle-info panel" *ngIf="effectiveVehicle || response">
   <div class="header-row">
-    <strong>Dados do Veículo</strong>
-    <small class="muted">Resumo da configuração atual e atributos da carga</small>
+    <strong>Dados do Veículo &amp; Carga</strong>
   </div>
 
+  <!-- Utilisation gauges — most important, shown first -->
+  <div class="utilisation-row" *ngIf="response">
+    <div class="gauge">
+      <div class="gauge-label">Volume</div>
+      <div class="gauge-bar">
+        <div class="gauge-fill" [class.ok]="volumePercent <= 85" [class.mid]="volumePercent > 85 && volumePercent <= 95" [class.warn]="volumePercent > 95" [style.width.%]="volumePercent | number:'1.0-0'"></div>
+      </div>
+      <div class="gauge-val" [class.ok]="volumePercent <= 85" [class.mid]="volumePercent > 85 && volumePercent <= 95" [class.warn]="volumePercent > 95">{{ volumePercent | number:'1.1-1' }}%</div>
+    </div>
+    <div class="gauge">
+      <div class="gauge-label">Peso</div>
+      <div class="gauge-bar">
+        <div class="gauge-fill" [class.ok]="weightPercent <= 85" [class.mid]="weightPercent > 85 && weightPercent <= 95" [class.warn]="weightPercent > 95" [style.width.%]="weightPercent | number:'1.0-0'"></div>
+      </div>
+      <div class="gauge-val" [class.ok]="weightPercent <= 85" [class.mid]="weightPercent > 85 && weightPercent <= 95" [class.warn]="weightPercent > 95">{{ weightPercent | number:'1.1-1' }}%</div>
+    </div>
+  </div>
+
+  <!-- Stats grid: vehicle on left, cargo on right -->
   <div class="stats-grid">
     <div class="col">
+      <div class="section-label">Veículo</div>
       <div class="stat">
-        <div class="label">Dimensões (W×L×H)</div>
-        <div class="val">{{ effectiveVehicle?.width || '—' }} × {{ effectiveVehicle?.length || '—' }} × {{ effectiveVehicle?.height || '—' }} cm</div>
+        <span class="label">Dimensões</span>
+        <span class="val">{{ effectiveVehicle?.width || '—' }} × {{ effectiveVehicle?.length || '—' }} × {{ effectiveVehicle?.height || '—' }}</span>
       </div>
       <div class="stat">
-        <div class="label">Peso Máx.</div>
-        <div class="val">{{ effectiveVehicle?.maxWeight || '—' }} kg</div>
+        <span class="label">Peso Máx.</span>
+        <span class="val">{{ effectiveVehicle?.maxWeight || '—' }} kg</span>
       </div>
       <div class="stat">
-        <div class="label">Peso Atual (veículo)</div>
-        <div class="val">{{ effectiveVehicle?.currentWeight || 0 | number:'1.0-2' }} kg</div>
+        <span class="label">Peso Atual</span>
+        <span class="val">{{ effectiveVehicle?.currentWeight || 0 | number:'1.0-2' }} kg</span>
       </div>
       <div class="stat" *ngIf="effectiveVehicle?.centerOfMass">
-        <div class="label">Centro de Massa (veículo)</div>
-        <div class="val">({{ effectiveVehicle?.centerOfMass?.x || 0 | number:'1.0-2' }}, {{ effectiveVehicle?.centerOfMass?.y || 0 | number:'1.0-2' }}, {{ effectiveVehicle?.centerOfMass?.z || 0 | number:'1.0-2' }})</div>
+        <span class="label">C. Massa</span>
+        <span class="val">({{ effectiveVehicle?.centerOfMass?.x || 0 | number:'1.0-1' }}, {{ effectiveVehicle?.centerOfMass?.y || 0 | number:'1.0-1' }}, {{ effectiveVehicle?.centerOfMass?.z || 0 | number:'1.0-1' }})</span>
       </div>
     </div>
 
     <div class="col">
+      <div class="section-label">Carga</div>
       <div class="stat">
-        <div class="label">Itens colocados</div>
-        <div class="val">{{ response?.cargoItems?.length || 0 }}</div>
+        <span class="label">Itens</span>
+        <span class="val">{{ response?.cargoItems?.length || 0 }}</span>
       </div>
       <div class="stat">
-        <div class="label">Peso total colocado</div>
-        <div class="val">{{ totalPlacedWeight | number:'1.0-2' }} kg</div>
+        <span class="label">Peso</span>
+        <span class="val">{{ totalPlacedWeight | number:'1.0-2' }} kg</span>
       </div>
       <div class="stat">
-        <div class="label">Volume total colocado</div>
-        <div class="val">{{ totalPlacedVolume | number:'1.0-0' }} cm³</div>
+        <span class="label">Volume</span>
+        <span class="val">{{ totalPlacedVolume | number:'1.0-0' }} mm³</span>
       </div>
       <div class="stat" *ngIf="response?.vehicle?.centerOfMass">
-        <div class="label">Centro de Massa (carga)</div>
-        <div class="val">({{ response?.vehicle?.centerOfMass?.x || 0 | number:'1.0-2' }}, {{ response?.vehicle?.centerOfMass?.y || 0 | number:'1.0-2' }}, {{ response?.vehicle?.centerOfMass?.z || 0 | number:'1.0-2' }})</div>
+        <span class="label">C. Massa</span>
+        <span class="val">({{ response?.vehicle?.centerOfMass?.x || 0 | number:'1.0-1' }}, {{ response?.vehicle?.centerOfMass?.y || 0 | number:'1.0-1' }}, {{ response?.vehicle?.centerOfMass?.z || 0 | number:'1.0-1' }})</span>
       </div>
     </div>
   </div>

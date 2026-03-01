@@ -36,6 +36,13 @@ export interface BinPackingServiceInterface {
     /**
      * 
      * 
+     * @param id 
+     */
+    cargoProgressSSE(id: string, extraHttpRequestParams?: any): Observable<CargoResponse>;
+
+    /**
+     * 
+     * 
      * @param delimiter 
      */
     uploadCargoFile(delimiter: string, extraHttpRequestParams?: any): Observable<Array<Item>>;

@@ -35,4 +35,22 @@ export class HomeVehicleInfo {
       return sum + (vol * qty)
     }, 0)
   }
+
+  get vehicleVolume(): number {
+    const v = this.effectiveVehicle
+    if (!v) return 0
+    return (v.width || 0) * (v.length || 0) * (v.height || 0)
+  }
+
+  get volumePercent(): number {
+    const total = this.vehicleVolume
+    if (total <= 0) return 0
+    return (this.totalPlacedVolume / total) * 100
+  }
+
+  get weightPercent(): number {
+    const max = this.effectiveVehicle?.maxWeight || 0
+    if (max <= 0) return 0
+    return (this.totalPlacedWeight / max) * 100
+  }
 }
