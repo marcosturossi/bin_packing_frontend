@@ -231,8 +231,8 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
 
       console.log(`[CargoView] item[${idx}] w=${w} l=${l} h=${h} → cx=${cx} cy=${cy} cz=${cz}`);
 
-      // Define family key from dimensions and weight so same-family items share color
-      const familyKey = `${w}|${l}|${h}|${Number(it.weight ?? 0)}`;
+      // Define family key from item ID so items with the same ID share color
+      const familyKey = `${it.id ?? idx}`;
       let familyIndex = familyMap.get(familyKey);
       if (familyIndex === undefined) {
         familyIndex = nextFamilyIndex++;
