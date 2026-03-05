@@ -1,13 +1,101 @@
-.vehicle-info{ margin-top:6px; padding:0.6rem }
-.vehicle-info .header-row{ display:flex; flex-direction:column; gap:4px; margin-bottom:6px }
-.vehicle-info .header-row strong{ font-size:0.98rem }
-.vehicle-info .header-row .muted{ font-size:0.82rem; color:var(--muted) }
-.vehicle-info .stats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px }
-.vehicle-info .col{ display:flex; flex-direction:column; gap:6px }
-.vehicle-info .stat{ display:flex; flex-direction:column }
-.vehicle-info .label{ color:var(--muted); font-size:0.82rem }
-.vehicle-info .val{ font-weight:600; font-size:0.95rem; color:var(--text) }
+.vehicle-info { margin-top: 6px; padding: 0.6rem 0.75rem }
 
-@media (max-width: 720px){
-	.vehicle-info .stats-grid{ grid-template-columns: 1fr }
+/* Header */
+.vehicle-info .header-row { margin-bottom: 8px }
+.vehicle-info .header-row strong { font-size: 0.95rem; color: #e6eef8 }
+
+/* ─── Utilisation gauges ─── */
+.utilisation-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.gauge {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gauge-label {
+  font-size: 0.78rem;
+  color: var(--muted, #8a98ab);
+  min-width: 46px;
+}
+
+.gauge-bar {
+  flex: 1;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease, background 0.3s ease;
+  &.ok   { background: #6ee7b7 }
+  &.mid  { background: #fbbf24 }
+  &.warn { background: #f87171 }
+}
+
+.gauge-val {
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-width: 44px;
+  text-align: right;
+  &.ok   { color: #6ee7b7 }
+  &.mid  { color: #fbbf24 }
+  &.warn { color: #f87171 }
+}
+
+/* ─── Stats grid ─── */
+.vehicle-info .stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 14px;
+}
+
+.vehicle-info .section-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted, #8a98ab);
+  margin-bottom: 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 2px;
+}
+
+.vehicle-info .col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.vehicle-info .stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.vehicle-info .label {
+  color: var(--muted, #8a98ab);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.vehicle-info .val {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text, #e6eef8);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .vehicle-info .stats-grid { grid-template-columns: 1fr }
+  .utilisation-row { flex-direction: column }
 }

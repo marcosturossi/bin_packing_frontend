@@ -98,6 +98,33 @@
 .vehicle-selected { margin-bottom:0.5rem; color:#bfe1ff }
 .items-list { margin-top:0.5rem }
 
+/* ----- SSE Progress section ----- */
+.progress-section {
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  color: #bfe1ff;
+}
+
+.progress-iter {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8ecfff;
+}
+
 /* Responsive tweaks */
 @media (max-width: 1199px) {
   .home-main { grid-template-columns: 260px 1fr }

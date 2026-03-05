@@ -21,6 +21,10 @@ import { Observable }                                        from 'rxjs';
 import { CargoRequest } from '../model/cargoRequest';
 // @ts-ignore
 import { CargoResponse } from '../model/cargoResponse';
+// @ts-ignore
+import { Item } from '../model/item';
+// @ts-ignore
+import { ProblemDetails } from '../model/problemDetails';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -170,13 +174,17 @@ export class BinPackingService implements BinPackingServiceInterface {
     }
 
     /**
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public natsHello(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public natsHello(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public natsHello(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public natsHello(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public cargoProgressSSE(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/event-stream' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<CargoResponse>;
+    public cargoProgressSSE(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/event-stream' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CargoResponse>>;
+    public cargoProgressSSE(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/event-stream' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CargoResponse>>;
+    public cargoProgressSSE(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/event-stream' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling cargoProgressSSE.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -184,6 +192,8 @@ export class BinPackingService implements BinPackingServiceInterface {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/event-stream',
+                'application/problem+json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -213,8 +223,72 @@ export class BinPackingService implements BinPackingServiceInterface {
             }
         }
 
-        let localVarPath = `/nats/hello`;
-        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/cargo/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/progress`;
+        return this.httpClient.request<CargoResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param delimiter 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public uploadCargoFile(delimiter: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<Array<Item>>;
+    public uploadCargoFile(delimiter: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Item>>>;
+    public uploadCargoFile(delimiter: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Item>>>;
+    public uploadCargoFile(delimiter: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'application/problem+json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (delimiter === null || delimiter === undefined) {
+            throw new Error('Required parameter delimiter was null or undefined when calling uploadCargoFile.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json',
+                'application/problem+json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/cargo/file/${this.configuration.encodeParam({name: "delimiter", value: delimiter, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<Array<Item>>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

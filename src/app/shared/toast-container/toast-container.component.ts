@@ -19,15 +19,21 @@ import { ToastComponent } from '../toast/toast.component';
   imports: [CommonModule, ToastComponent],
   styles: [`
     .toast-container {
+      /* enforce fixed positioning and high stacking context to ensure visibility */
+      position: fixed !important;
+      bottom: 1rem !important;
+      right: 1rem !important;
+      z-index: 2147483647 !important;
       max-height: 100vh;
       overflow-y: auto;
+      pointer-events: auto;
     }
-    
+
     .toast-container app-toast {
       display: block;
       margin-bottom: 0.5rem;
     }
-    
+
     .toast-container app-toast:last-child {
       margin-bottom: 0;
     }
@@ -43,6 +49,7 @@ export class ToastContainerComponent implements OnInit, OnDestroy {
     this.subscription = this.notificationService.getNotifications().subscribe(
       notifications => {
         this.notifications = notifications;
+        try { console.debug('[ToastContainer] notifications updated', notifications.length); } catch(e) {}
       }
     );
   }

@@ -21,8 +21,9 @@ export class SelectVehicle {
   selectedIndex: number | null = null;
 
   vehicleList: Vehicle[] = [
-    { width: 235, height: 238, length: 590, maxWeight: 18000, axles: [] },
-    { width: 235, height: 238, length: 1203, maxWeight: 28000, axles: [] },
+    { width: 2352, height: 2395, length: 5898, maxWeight: 18000, axles: [] },
+    { width: 2352, height: 2395, length: 12032, maxWeight: 28000, axles: [] },
+    { width: 2352, height: 2698, length: 12032, maxWeight: 28000, axles: [] },
   ];
 
   get availableVehicles(): Vehicle[] {

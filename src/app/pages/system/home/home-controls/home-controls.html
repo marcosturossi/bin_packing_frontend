@@ -5,23 +5,37 @@
     <button pButton class="p-button-text help-btn" icon="pi pi-info-circle" (click)="toggleHelp()" aria-label="Ajuda campos"></button>
   </div>
 
+
+  <div class="upload-row">
+    <div class="upload-group" title="Importar itens a partir de CSV">
+      <input #fileInput type="file" accept=".csv" (change)="onFileSelected($event)" style="display:none" />
+      <button pButton type="button" icon="pi pi-plus" label="Selecionar CSV" class="csv-choose-btn" (click)="fileInput.click()" aria-label="Selecionar CSV" title="Selecionar CSV"></button>
+
+      <div class="upload-controls">
+        <input pInputText type="text" [(ngModel)]="delimiter" class="delimiter" placeholder="," title="Delimitador CSV" />
+        <button pButton label="Importar CSV" [icon]="uploading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'" (click)="uploadCsv()" [disabled]="!fileToUpload || uploading"></button>
+        <button *ngIf="fileToUpload" pButton type="button" class="p-button-text" icon="pi pi-times" (click)="clearSelection(fileInput)" [disabled]="uploading" aria-label="Limpar seleção" title="Limpar seleção"></button>
+      </div>
+    </div>
+  </div>
+
   <form [formGroup]="form" class="quick-add" (ngSubmit)="quickAdd()">
     <div class="section-header">
       <strong class="section-title">Adicionar Item Rápido</strong>
-      <small class="section-sub">Preencha as medidas e quantidade (unidades em cm e kg)</small>
+      <small class="section-sub">Preencha as medidas e quantidade (unidades em mm e kg)</small>
     </div>
     <div class="inputs">
       <label class="input-group">
         <span class="field-label">Largura</span>
-        <input pInputText type="number" formControlName="width" placeholder="Largura, ex: 30" title="Largura (cm)" aria-label="Largura em centímetros" />
+        <input pInputText type="number" formControlName="width" placeholder="Largura, ex: 30" title="Largura (mm)" aria-label="Largura em milímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Comprimento</span>
-        <input pInputText type="number" formControlName="length" placeholder="Comprimento, ex: 30" title="Comprimento (cm)" aria-label="Comprimento em centímetros" />
+        <input pInputText type="number" formControlName="length" placeholder="Comprimento, ex: 30" title="Comprimento (mm)" aria-label="Comprimento em milímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Altura</span>
-        <input pInputText type="number" formControlName="height" placeholder="Altura, ex: 30" title="Altura (cm)" aria-label="Altura em centímetros" />
+        <input pInputText type="number" formControlName="height" placeholder="Altura, ex: 30" title="Altura (mm)" aria-label="Altura em milímetros" />
       </label>
       <label class="input-group">
         <span class="field-label">Qtd</span>

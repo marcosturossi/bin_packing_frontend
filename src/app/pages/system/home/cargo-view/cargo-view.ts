@@ -10,7 +10,7 @@ import {
   NgZone,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CargoResponse, ItemWithPositions, Vehicle } from '../../../../generated_services';
+import { CargoResponse, CenterOfMass, ItemWithPositions, Vehicle } from '../../../../generated_services';
 
 @Component({
   selector: 'app-cargo-view',
@@ -37,6 +37,10 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
   private resizeObserver: any = null;
   private rafId: any = null;
   private initDone = false;
+  /** Track first render so we only auto-fit camera once per new optimization */
+  private isFirstRender = true;
+  /** The cargo id of the last rendered response — used to detect new optimizations */
+  private lastCargoId: string | null = null;
 
   constructor(private ngZone: NgZone) {}
 
@@ -48,6 +52,14 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!this.initDone || !this.scene) return;
+
+    // Detect if a brand-new optimization started (cargo id changed or cargo was cleared)
+    const newId = this.cargo?.id ?? null;
+    if (newId !== this.lastCargoId) {
+      this.isFirstRender = true;
+      this.lastCargoId = newId;
+    }
+
     Promise.resolve().then(() => this.updateScene());
   }
 
@@ -251,8 +263,19 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
       this.meshes.push(edgeMesh);
     });
 
-    // Auto-fit camera to the built scene
-    this.fitCamera();
+    // ── Center of Mass marker ────────────────────────────────────────────────
+    // Use the response vehicle's centerOfMass (computed by the backend)
+    const com: CenterOfMass | undefined = this.cargo?.vehicle?.centerOfMass;
+    if (com && com.x != null && com.y != null && com.z != null) {
+      this.addCenterOfMassMarker(THREE, com, vehW, vehL, vehH);
+    }
+
+    // Only auto-fit camera on the first render of a new optimization.
+    // Subsequent SSE updates preserve the user's current viewpoint.
+    if (this.isFirstRender) {
+      this.fitCamera();
+      this.isFirstRender = false;
+    }
 
     // Debug: camera and renderer state after layout
     try {
@@ -297,6 +320,80 @@ export class CargoView implements AfterViewInit, OnChanges, OnDestroy {
     outline.position.set(0, h / 2, 0);
     this.scene.add(outline);
     this.meshes.push(outline);
+  }
+
+  // ─── Center of Mass 3D marker ───────────────────────────────────────────────
+
+  private addCenterOfMassMarker(THREE: any, com: CenterOfMass, vehW: number, vehL: number, vehH: number) {
+    // Convert from backend coords (origin at vehicle corner) to scene coords
+    // Same transform as items: cx = x - vehW/2, cy = z (height), cz = y - vehL/2
+    const cx = (com.x ?? 0) - vehW / 2;
+    const cy = (com.z ?? 0);            // height above floor
+    const cz = (com.y ?? 0) - vehL / 2;
+
+    const comColor = 0xff2244;
+    const markerSize = Math.max(vehW, vehL, vehH) * 0.02; // proportional radius
+
+    // Glowing sphere
+    const sphereGeom = new THREE.SphereGeometry(markerSize, 24, 24);
+    const sphereMat = new THREE.MeshStandardMaterial({
+      color: comColor,
+      emissive: comColor,
+      emissiveIntensity: 0.6,
+      metalness: 0.1,
+      roughness: 0.3,
+      transparent: true,
+      opacity: 0.9,
+    });
+    const sphere = new THREE.Mesh(sphereGeom, sphereMat);
+    sphere.position.set(cx, cy, cz);
+    this.scene.add(sphere);
+    this.meshes.push(sphere);
+
+    // Outer ring (torus) for extra visibility
+    const ringGeom = new THREE.TorusGeometry(markerSize * 2, markerSize * 0.25, 16, 48);
+    const ringMat = new THREE.MeshStandardMaterial({
+      color: comColor,
+      emissive: comColor,
+      emissiveIntensity: 0.4,
+      transparent: true,
+      opacity: 0.6,
+    });
+    const ring = new THREE.Mesh(ringGeom, ringMat);
+    ring.position.set(cx, cy, cz);
+    ring.rotation.x = Math.PI / 2; // lay flat in XZ plane
+    this.scene.add(ring);
+    this.meshes.push(ring);
+
+    // Crosshair lines (X, Y-height, Z axes through the CoM point)
+    const lineLen = Math.max(vehW, vehL, vehH) * 0.12;
+    const lineMat = new THREE.LineBasicMaterial({ color: comColor, linewidth: 2 });
+
+    const axes: Array<[number, number, number, number, number, number]> = [
+      [cx - lineLen, cy, cz, cx + lineLen, cy, cz],  // X axis
+      [cx, cy - lineLen, cz, cx, cy + lineLen, cz],  // Y (height)
+      [cx, cy, cz - lineLen, cx, cy, cz + lineLen],  // Z axis
+    ];
+    axes.forEach(([x1, y1, z1, x2, y2, z2]) => {
+      const pts = [new THREE.Vector3(x1, y1, z1), new THREE.Vector3(x2, y2, z2)];
+      const geom = new THREE.BufferGeometry().setFromPoints(pts);
+      const line = new THREE.LineSegments(geom, lineMat);
+      this.scene.add(line);
+      this.meshes.push(line);
+    });
+
+    // Vertical dashed line from floor to CoM height
+    const dashMat = new THREE.LineDashedMaterial({
+      color: comColor, dashSize: markerSize * 1.5, gapSize: markerSize, linewidth: 1,
+    });
+    const floorPts = [new THREE.Vector3(cx, 0, cz), new THREE.Vector3(cx, cy, cz)];
+    const floorGeom = new THREE.BufferGeometry().setFromPoints(floorPts);
+    const floorLine = new THREE.Line(floorGeom, dashMat);
+    floorLine.computeLineDistances();
+    this.scene.add(floorLine);
+    this.meshes.push(floorLine);
+
+    console.log(`[CargoView] CoM marker at (${com.x}, ${com.y}, ${com.z}) → scene (${cx.toFixed(1)}, ${cy.toFixed(1)}, ${cz.toFixed(1)})`);
   }
 
   // ─── Render loop ─────────────────────────────────────────────────────────────

@@ -15,6 +15,7 @@ model/centerOfMass.ts
 model/item.ts
 model/itemWithPositions.ts
 model/models.ts
+model/problemDetails.ts
 model/vehicle.ts
 param.ts
 variables.ts
