@@ -23,7 +23,7 @@ export class SelectVehicle {
   vehicleList: Vehicle[] = [
     { width: 2352, height: 2395, length: 5898, maxWeight: 18000, axles: [] },
     { width: 2352, height: 2395, length: 12032, maxWeight: 28000, axles: [] },
-    { width: 2352, height: 2698, length: 12032, maxWeight: 28000, axles: [] },
+    { width: 2352, height: 2698, length: 12032, maxWeight: 33500, axles: [] },
   ];
 
   get availableVehicles(): Vehicle[] {
